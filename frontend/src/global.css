@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+body {
+    background-color: #1A120B;
+    font-family: 'Roboto Mono', monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+}
+a {
+    text-decoration: none;
+    color: #fff;
+}
+p {
+    color: #fff;
+}
