@@ -2,20 +2,39 @@ package main
 
 import(
 	"log"
-	"github.com/labstack/echo/v4"
+	"net/http"
+	// "github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/dagulv/gym-app/internal/exercise"
+	"github.com/dagulv/gym-app/internal/db"
+	"github.com/dagulv/gym-app/internal/server"
+	"github.com/dagulv/gym-app/internal/api"
+	
 )
 func main() {
-	r := echo.New()
-	r.Use(middleware.CORS())
-	r.Use(middleware.Logger())
-	rg := r.Group("")
-	exercise.RegisterHandlers(rg)
-	// app.Use(middleware.StaticWithConfig(middleware.StaticConfig{
-    //     Root: "/frontend/build",
-	// 	Browse: true,
-    // }))
+	// ctx, cancel := context.WithCancel(context.Background())
+	// defer cancel()
+	
+	err := db.CreateDatabase()
+	if err != nil {
+		log.Fatal("Database connection failed: %s", err.Error())
+	}
 
-	log.Fatal(r.Start(":8080"))
+	s := server.Connect()
+
+	api.Routes(s.Group(
+		"/api",
+		middleware.CORSWithConfig(middleware.CORSConfig{
+			AllowOrigins: []string{"*"},
+			AllowMethods: []string{
+				http.MethodHead,
+				http.MethodGet,
+				http.MethodPost,
+				http.MethodPut,
+				http.MethodDelete,
+			},
+			AllowCredentials: true,
+		}),
+	))
+
+	log.Fatal(server.Start(s))
 }

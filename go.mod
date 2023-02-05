@@ -3,6 +3,7 @@ module github.com/dagulv/gym-app
 go 1.18
 
 require (
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/labstack/echo/v4 v4.10.0 // indirect

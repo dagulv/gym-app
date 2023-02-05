@@ -1,11 +1,22 @@
 <script>
-    import "../global.css"
+    import Header from "../components/Header.svelte";
 </script>
 
-<nav>
-    <a href="/">Home</a>
-    <a href="/about">About</a>
-    <a href="/404">404</a>
-</nav>
+<Header />
 
-<slot />
+<main>
+    <slot />
+</main>
+
+<style lang="scss">
+    :global {
+        @import '../styles/frontend.scss';
+    }
+    :global(body) {
+        background-color: $color-background;
+    }
+    main {
+        padding: $site-space;
+    }
+    
+</style>
