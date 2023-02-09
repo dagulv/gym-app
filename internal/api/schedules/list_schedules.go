@@ -4,34 +4,35 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	// "github.com/dagulv/gym-app/internal/model"
+	"github.com/dagulv/gym-app/internal/model"
 	"github.com/dagulv/gym-app/internal/db"
 )
 
 func List(c echo.Context) (err error) {
-	// schedules := make([]model.Schedule, 0, 10)
-	err2 := db.DBConn.QueryRow("SELECT VERSION()")
-	// defer resp.Close()
+	schedules := make([]model.Schedule, 0, 10)
+	resp, err := db.DBConn.Query("SELECT * FROM schedule WHERE id = 3")
+	defer resp.Close()
 
-	if err2 != nil {
+	if err != nil {
 		return c.JSON(http.StatusOK, echo.Map{
-			"message": err2,
+			"querymessage": err,
 		})
 	}
 
-	// for resp.Next() {
-	// 	var schedule model.Schedule
-	// 	// &schedule.Monday, &schedule.Tuesday, &schedule.Wednesday, &schedule.Thursday, &schedule.Friday, &schedule.Saturday, &schedule.Sunday
-	// 	err = resp.Scan(&schedule.Id, &schedule.UserId, &schedule.Title, &schedule.Description, &schedule.TimeCreated, &schedule.TimeUpdated, &schedule.Color)
-	// 	if err != nil {
-	// 		return err
-	// 	}
+	for resp.Next() {
+		var schedule model.Schedule
+		// &schedule.Monday, &schedule.Tuesday, &schedule.Wednesday, &schedule.Thursday, &schedule.Friday, &schedule.Saturday, &schedule.Sunday
+		if err = resp.Scan(&schedule.Id, &schedule.UserId, &schedule.Title, &schedule.Description, &schedule.TimeCreated, &schedule.TimeUpdated, &schedule.Color); err == nil {
+			return c.JSON(http.StatusOK, echo.Map{
+				"scanmessage": err,
+			})
+		}
 
-	// 	schedules = append(schedules, schedule)
-	// }
-	// return c.JSON(http.StatusOK, schedules)
-	return c.JSON(http.StatusOK, echo.Map{
-		"message": "hello from the echo server",
-	})
+		schedules = append(schedules, schedule)
+	}
+	return c.JSON(http.StatusOK, schedules)
+	// return c.JSON(http.StatusOK, echo.Map{
+	// 	"message": "hello from the echo server",
+	// })
 
 }

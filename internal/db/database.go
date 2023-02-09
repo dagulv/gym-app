@@ -1,6 +1,7 @@
 package db
 
 import (
+	"log"
 	"database/sql"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -10,10 +11,10 @@ var (
 )
 
 func CreateDatabase() (err error) {
-	DBConn, err = sql.Open("mysql", "user:password@/db")
-	defer DBConn.Close()
+	DBConn, err = sql.Open("mysql", "user:password@tcp(gym-app-db)/db")
+	// defer DBConn.Close()
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	return err

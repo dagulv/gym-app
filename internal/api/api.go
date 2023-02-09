@@ -8,4 +8,5 @@ import (
 
 func Routes(api *echo.Group) {
 	api.GET("/schedules", schedules.List)
+	api.POST("/schedules", schedules.Create)
 }
