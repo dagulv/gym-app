@@ -11,7 +11,7 @@ var (
 )
 
 func CreateDatabase() (err error) {
-	DBConn, err = sql.Open("mysql", "user:password@tcp(gym-app-db)/db")
+	DBConn, err = sql.Open("mysql", "user:password@tcp(gym-app-db)/db?parseTime=true")
 	// defer DBConn.Close()
 	if err != nil {
 		log.Fatal(err)

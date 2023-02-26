@@ -7,9 +7,13 @@ const config = {
 	resolve: {
 		alias: {
 			$components: path.resolve('./src/components'),
-			$iconComponents: path.resolve('./src/components/icon-components')
+			$iconComponents: path.resolve('./src/components/icon-components'),
+			$lib: path.resolve('./src/lib'),
 		}
-	}
+	},
+	build: {
+		sourcemap: false
+	},
 };
 
 export default config;
